@@ -1,0 +1,2 @@
+from .user_post_permission import UserPostPermission
+from .user_comment_permission import UserCommentPermission

@@ -1,0 +1,2 @@
+from .friend_list_admin import FriendListAdmin
+from .friend_request_admin import FriendRequestAdmin
