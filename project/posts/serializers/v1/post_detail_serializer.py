@@ -12,6 +12,7 @@ class PostDetailSerializer(serializers.ModelSerializer):
         required=False
     )
     comments = CommentSerializer(read_only=True, many=True)
+    is_liked = serializers.SerializerMethodField('get_liked')
     total_likes = serializers.IntegerField(read_only=True)
     total_tags = serializers.IntegerField(read_only=True)
     total_comments = serializers.IntegerField(read_only=True)
@@ -26,3 +27,9 @@ class PostDetailSerializer(serializers.ModelSerializer):
         representation['model'] = 'post'
         representation['privacy'] = Post.PrivacyEnum(instance.privacy).label
         return representation
+
+    def get_liked(self, post):
+        user = self.context['request'].user
+        if user in post.likes.all():
+            return True
+        return False

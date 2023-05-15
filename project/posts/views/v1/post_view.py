@@ -43,8 +43,16 @@ class PostViewSet(viewsets.ModelViewSet):
             .prefetch_related('post__likes', 'post__tags')
         )
 
-        post_serializer = PostSerializer(posts, many=True)
-        share_serializer = ShareSerializer(shared_posts, many=True)
+        post_serializer = PostSerializer(
+            posts,
+            many=True,
+            context={'request': self.request}
+        )
+        share_serializer = ShareSerializer(
+            shared_posts,
+            many=True,
+            context={'request': self.request}
+        )
 
         paginator = PageNumberPagination()
         paginated_queryset = paginator.paginate_queryset(
@@ -74,20 +82,14 @@ class PostViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_404_NOT_FOUND
                 )
 
-        serializer = PostDetailSerializer(post)
+        serializer = PostDetailSerializer(
+            post,
+            context={'request': self.request}
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update(
-            {
-                'request': self.request
-            }
-        )
-        return context
 
     @action(
         methods=['POST'],
