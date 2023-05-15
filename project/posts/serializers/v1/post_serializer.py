@@ -1,10 +1,14 @@
 from rest_framework import serializers
 from project.posts.models import Post
-# from project.users.serializers.v1 import UserDisplay
+from project.users.serializers.v1 import UserDisplay
 
 
 class PostSerializer(serializers.ModelSerializer):
-    tags = serializers.ListSerializer(child=serializers.StringRelatedField())
+    user = UserDisplay(read_only=True)
+    tags = serializers.ListSerializer(
+        child=serializers.StringRelatedField(),
+        required=False
+    )
     total_likes = serializers.IntegerField(read_only=True)
     total_tags = serializers.IntegerField(read_only=True)
     total_comments = serializers.IntegerField(read_only=True)

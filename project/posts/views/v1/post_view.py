@@ -77,6 +77,9 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = PostDetailSerializer(post)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update(
