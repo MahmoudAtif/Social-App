@@ -44,6 +44,8 @@ urlpatterns = i18n_patterns(
     path('api/users/v1/auth/', include('drf_social_oauth2.urls', namespace='drf')),
     path('api/friends/v1/', include((friends_urls_v1, 'friends'))),
     path('api/posts/v1/', include((posts_urls_v1, 'posts'))),
+
+    # If no prefix is given, use the default language
     prefix_default_language=False
 )
 

@@ -46,10 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # Thrd party
-    'debug_toolbar',
     'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
+    # 'debug_toolbar',
 
     # OAuth2
     'oauth2_provider',
@@ -70,8 +70,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
