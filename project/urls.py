@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from django.conf.urls.i18n import i18n_patterns
 
 
 schema_view = get_schema_view(
@@ -37,13 +38,14 @@ schema_view = get_schema_view(
 )
 
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path('admin/', admin.site.urls),
     path('api/users/v1/', include((users_urls_v1, 'users'))),
     path('api/users/v1/auth/', include('drf_social_oauth2.urls', namespace='drf')),
     path('api/friends/v1/', include((friends_urls_v1, 'friends'))),
     path('api/posts/v1/', include((posts_urls_v1, 'posts'))),
-]
+    prefix_default_language=False
+)
 
 
 if settings.DEBUG:
