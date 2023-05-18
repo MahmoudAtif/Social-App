@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from project.posts.models import Post
 from project.users.serializers.v1 import UserDisplay
+from django.utils import timezone
+from django.utils.timesince import timesince
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -10,6 +12,7 @@ class PostSerializer(serializers.ModelSerializer):
         required=False
     )
     is_liked = serializers.SerializerMethodField('get_liked')
+    time_since = serializers.SerializerMethodField('get_time_since')
     total_likes = serializers.IntegerField(read_only=True)
     total_tags = serializers.IntegerField(read_only=True)
     total_comments = serializers.IntegerField(read_only=True)
@@ -30,3 +33,8 @@ class PostSerializer(serializers.ModelSerializer):
         if user in post.likes.all():
             return True
         return False
+
+    def get_time_since(self, post):
+        created_at = post.created_at
+        date_now = timezone.now()
+        return timesince(created_at, date_now, depth=1)
